@@ -1,22 +1,17 @@
 import { useState, useReducer } from "react";
 import "./App.css";
 import formReducer from "./assets/reducer/formReducer";
-import formTwoReducer from "./assets/reducer/formTwoReducer";
 import CustomInput from "./assets/components/CustomInput";
 
 const initialState = {
   firstName: "",
   lastName: "",
-};
-
-const initialStateTwo = {
   email: "",
   password: "",
 };
 
 function App() {
   const [state, dispatch] = useReducer(formReducer, initialState);
-  const [stateTwo, dispatchTwo] = useReducer(formTwoReducer, initialStateTwo);
 
   const [inputOne, setInputOne] = useState(0);
   const [inputTwo, setInputTwo] = useState(0);
