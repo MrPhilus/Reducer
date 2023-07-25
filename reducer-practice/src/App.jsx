@@ -4,6 +4,7 @@ import formReducer from "./assets/reducer/formReducer";
 import CustomInput from "./assets/components/CustomInput";
 
 const initialState = {
+  count: 0,
   firstName: "",
   lastName: "",
   email: "",
@@ -15,21 +16,43 @@ function App() {
 
   const [inputOne, setInputOne] = useState(0);
   const [inputTwo, setInputTwo] = useState(0);
+  const [type, setType] = useState(0);
+  const [typeTwo, setTypeTwo] = useState(0);
 
-  const formOne = [{ type: "First Name" }, { type: "Email" }];
-  const formTwo = [{ type: "Last Name" }, { type: "Password" }];
+  const formOne = [
+    { type: "First Name", value: "firstName" },
+    { type: "Email", value: "email" },
+  ];
+  const formTwo = [
+    { type: "Last Name", value: "lastName" },
+    { type: "Password", value: "password" },
+  ];
+
+  const inputType = [{ type: "text" }, { type: "email" }];
+  const inputTypeTwo = [{ type: "text" }, { type: "password" }];
 
   function changeFirstName(e) {
-    dispatch({ type: "CHANGE_FIRST", payload: e.target.value });
+    console.log(e.target.name);
+    if (e.target.name === "firstName") {
+      dispatch({ type: "CHANGE_FIRST", payload: e.target.value });
+    } else {
+      dispatch({ type: "CHANGE_EMAIL", payload: e.target.value });
+    }
   }
 
   function changeLastName(e) {
-    dispatch({ type: "CHANGE_LAST", payload: e.target.value });
+    if (e.target.name === "lastName") {
+      dispatch({ type: "CHANGE_LAST", payload: e.target.value });
+    } else {
+      dispatch({ type: "CHANGE_PASSWORD", payload: e.target.value });
+    }
   }
 
   function changeForm() {
     setInputOne((prev) => prev + 1);
     setInputTwo((prev) => prev + 1);
+    setType((prev) => prev + 1);
+    setTypeTwo((prev) => prev + 1);
   }
 
   return (
@@ -44,9 +67,10 @@ function App() {
           /> */}
           <CustomInput
             labeltext={formOne[inputOne].type}
-            type={"text"}
-            value={state.firstName}
+            type={inputType[type].type}
+            value={state[formOne[inputOne].value]}
             onInput={changeFirstName}
+            name={formOne[inputOne].value}
           />
         </div>
         <div>
@@ -54,12 +78,19 @@ function App() {
           <input type="text" onInput={changeLastName} value={state.lastName} /> */}
           <CustomInput
             labeltext={formTwo[inputTwo].type}
-            type={"text"}
-            value={state.lastName}
+            type={inputTypeTwo[typeTwo].type}
+            value={state[formTwo[inputTwo].value]}
             onInput={changeLastName}
+            name={formTwo[inputTwo].value}
           />
         </div>
       </form>
+      <div>
+        <p>{state.firstName}</p>
+        <p>{state.lastName}</p>
+        <p>{state.email}</p>
+        <p>{state.password}</p>
+      </div>
       <button onClick={changeForm}>Next</button>
     </div>
   );
