@@ -32,7 +32,6 @@ function App() {
   const inputTypeTwo = [{ type: "text" }, { type: "password" }];
 
   function changeFirstName(e) {
-    console.log(e.target.name);
     if (e.target.name === "firstName") {
       dispatch({ type: "CHANGE_FIRST", payload: e.target.value });
     } else {
@@ -53,44 +52,41 @@ function App() {
     setInputTwo((prev) => prev + 1);
     setType((prev) => prev + 1);
     setTypeTwo((prev) => prev + 1);
+    state.count++;
   }
 
   return (
     <div>
-      <form>
+      {state.count < 2 && (
+        <form>
+          <div>
+            <CustomInput
+              labeltext={formOne[inputOne].type}
+              type={inputType[type].type}
+              value={state[formOne[inputOne].value]}
+              onInput={changeFirstName}
+              name={formOne[inputOne].value}
+            />
+          </div>
+          <div>
+            <CustomInput
+              labeltext={formTwo[inputTwo].type}
+              type={inputTypeTwo[typeTwo].type}
+              value={state[formTwo[inputTwo].value]}
+              onInput={changeLastName}
+              name={formTwo[inputTwo].value}
+            />
+          </div>
+        </form>
+      )}
+      {state.count === 2 && (
         <div>
-          {/* <label htmlFor="">First Name</label>
-          <input
-            type="text"
-            onInput={changeFirstName}
-            value={state.firstName} 
-          /> */}
-          <CustomInput
-            labeltext={formOne[inputOne].type}
-            type={inputType[type].type}
-            value={state[formOne[inputOne].value]}
-            onInput={changeFirstName}
-            name={formOne[inputOne].value}
-          />
+          <p>{state.firstName}</p>
+          <p>{state.lastName}</p>
+          <p>{state.email}</p>
+          <p>{state.password}</p>
         </div>
-        <div>
-          {/* <label htmlFor="">Last Name</label>
-          <input type="text" onInput={changeLastName} value={state.lastName} /> */}
-          <CustomInput
-            labeltext={formTwo[inputTwo].type}
-            type={inputTypeTwo[typeTwo].type}
-            value={state[formTwo[inputTwo].value]}
-            onInput={changeLastName}
-            name={formTwo[inputTwo].value}
-          />
-        </div>
-      </form>
-      <div>
-        <p>{state.firstName}</p>
-        <p>{state.lastName}</p>
-        <p>{state.email}</p>
-        <p>{state.password}</p>
-      </div>
+      )}
       <button onClick={changeForm}>Next</button>
     </div>
   );
